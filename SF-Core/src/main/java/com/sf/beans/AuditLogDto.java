@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class AuditLogDto {
 
-
     private Long id;
     private Long productId;
     private Long userId;

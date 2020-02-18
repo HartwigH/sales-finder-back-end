@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.text.ParseException;
+
 @Ignore
 public class ProductServiceTest {
 

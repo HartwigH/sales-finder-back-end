@@ -1,9 +1,12 @@
 package com.sf.beans;
 
+import com.sf.model.Price;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class ProductDto {
+public class ProductPriceDto {
 
     private Long id;
     private String name;
@@ -12,5 +15,8 @@ public class ProductDto {
     private String dataId;
     private int visibility;
     private Long storeId;
+    private List<Price> price;
+    private float lastPrice;
+    private float percentageDrop;
 
 }

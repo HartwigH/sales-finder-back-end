@@ -1,15 +1,13 @@
 package com.sf.util;
 
-import com.sf.beans.AuditLogDto;
-import com.sf.beans.PriceDto;
-import com.sf.beans.ProductDto;
+import com.sf.beans.*;
 import com.sf.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class BeanMappingUtils {
+import java.util.ArrayList;
+import java.util.List;
 
-    @Autowired
-    private static Store store;
+public class BeanMappingUtils {
 
     public static ProductDto model2Dto(Product model) {
         ProductDto dto = new ProductDto();
@@ -22,6 +20,34 @@ public class BeanMappingUtils {
         dto.setStoreId(model.getStoreId());
 
         return dto;
+    }
+
+    public static List<ProductPriceDto> model2Dto(List<Product> model) {
+
+        List<ProductPriceDto> dtosList = new ArrayList<>();
+        model.forEach(e -> {
+            ProductPriceDto dto = new ProductPriceDto();
+            dto.setId(e.getId());
+            dto.setName(e.getName());
+            dto.setUrl(e.getProductUrl());
+            dto.setImgUrl(e.getProductImgUrl());
+            dto.setDataId(e.getDataId());
+            dto.setVisibility(e.getProductVisibility());
+            dto.setStoreId(e.getStoreId());
+            dto.setPrice(e.getPrice());
+
+            // Find more optimized way to do this
+            dto.setLastPrice(e.getPrice().stream().reduce((first, second) -> second).orElse(null).getPrice());
+
+            // ((first - last) * 100) / last
+            dto.setPercentageDrop(((e.getPrice().stream().reduce((first, second) -> first).orElse(null).getPrice()
+                    - e.getPrice().stream().reduce((first, second) -> second).orElse(null).getPrice())
+                    * 100)
+                    / e.getPrice().stream().reduce((first, second) -> first).orElse(null).getPrice());
+
+            dtosList.add(dto);
+        });
+        return dtosList;
     }
 
     public static Product dto2Model(ProductDto dto) {
@@ -42,7 +68,7 @@ public class BeanMappingUtils {
     public static Price dto2Model(PriceDto dto) {
         Price price = new Price();
         if (dto.getId() != null) {
-           price.setId(dto.getId());
+            price.setId(dto.getId());
         }
         price.setProductId(dto.getProductId());
         price.setPrice(dto.getPrice());
@@ -61,6 +87,6 @@ public class BeanMappingUtils {
         auditLog.setActionId(dto.getActionId());
         auditLog.setDate(dto.getDate());
 
-        return  auditLog;
+        return auditLog;
     }
 }

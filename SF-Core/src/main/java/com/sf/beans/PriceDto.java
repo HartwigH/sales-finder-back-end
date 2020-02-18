@@ -9,4 +9,5 @@ public class PriceDto {
     private long productId;
     private float price;
     private String date;
+
 }

@@ -2,10 +2,10 @@ package com.sf.controllers;
 
 
 import com.sf.beans.ProductDto;
+import com.sf.beans.ProductPriceDto;
 import com.sf.beans.ResponseBean;
 import com.sf.model.Product;
 import com.sf.service.ProductService;
-import com.sf.util.BeanMappingUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,8 +25,8 @@ public class ProductRestController {
     private ProductService productService;
 
     @RequestMapping(value = "/{id}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseBean<ProductDto> findProduct(@PathVariable Long id) throws Exception {
         ProductDto productDto = productService.findById(id);
@@ -43,28 +43,28 @@ public class ProductRestController {
     @RequestMapping(value = "/all/visible",
             method = RequestMethod.GET)
     @ResponseBody
-    public List<Product> getAllVisibleProducts() {
+    public List<ProductPriceDto> getAllVisibleProducts() {
         return new ArrayList<>(productService.findAllVisibleProd());
     }
 
     @RequestMapping(value = "/all/visible/monton",
             method = RequestMethod.GET)
     @ResponseBody
-    public List<Product> getAllVisibleMontonProducts() {
+    public List<ProductPriceDto> getAllVisibleMontonProducts() {
         return new ArrayList<>(productService.findAllVisMonProd());
     }
 
     @RequestMapping(value = "/all/visible/mosaic",
             method = RequestMethod.GET)
     @ResponseBody
-    public List<Product> getAllVisibleMosaicProducts() {
+    public List<ProductPriceDto> getAllVisibleMosaicProducts() {
         return new ArrayList<>(productService.findAllVisMosProd());
     }
 
     @RequestMapping(value = "/all/visible/baltman",
             method = RequestMethod.GET)
     @ResponseBody
-    public List<Product> getAllVisibleBaltmanProducts() {
+    public List<ProductPriceDto> getAllVisibleBaltmanProducts() {
         return new ArrayList<>(productService.findAllVisBalProd());
     }
 
@@ -77,7 +77,7 @@ public class ProductRestController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes= MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseBean<String> moduleProcess(@RequestBody ProductDto productDto) {
         productService.saveProduct(productDto);
@@ -93,7 +93,5 @@ public class ProductRestController {
         Product foundProd = productService.findProductByParams(searchProduct);
         log.info("found product " + foundProd);
         return foundProd;
-
-        //return new ResponseBean<List<TrainerDto>>(results);
     }
 }
