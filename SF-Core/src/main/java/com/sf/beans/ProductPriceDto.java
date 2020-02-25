@@ -17,6 +17,6 @@ public class ProductPriceDto {
     private Long storeId;
     private List<Price> price;
     private float lastPrice;
-    private float percentageDrop;
+    private String percentageDrop;
 
 }

@@ -4,10 +4,13 @@ import com.sf.beans.*;
 import com.sf.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BeanMappingUtils {
+
+    private static DecimalFormat df = new DecimalFormat("0");
 
     public static ProductDto model2Dto(Product model) {
         ProductDto dto = new ProductDto();
@@ -40,10 +43,12 @@ public class BeanMappingUtils {
             dto.setLastPrice(e.getPrice().stream().reduce((first, second) -> second).orElse(null).getPrice());
 
             // ((first - last) * 100) / last
-            dto.setPercentageDrop(((e.getPrice().stream().reduce((first, second) -> first).orElse(null).getPrice()
+            float precentage = ((e.getPrice().stream().reduce((first, second) -> first).orElse(null).getPrice()
                     - e.getPrice().stream().reduce((first, second) -> second).orElse(null).getPrice())
                     * 100)
-                    / e.getPrice().stream().reduce((first, second) -> first).orElse(null).getPrice());
+                    / e.getPrice().stream().reduce((first, second) -> first).orElse(null).getPrice();
+
+            dto.setPercentageDrop(df.format(precentage));
 
             dtosList.add(dto);
         });
